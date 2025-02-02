@@ -1,0 +1,27 @@
+name: Custom Action with Email
+
+on:
+  workflow_dispatch:  # Allows manual triggering
+  push:
+    branches:
+      - main  # Trigger the workflow when pushing to the main branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 22f3001666@ds.study.iitm.ac.in
+        run: echo "Hello, world! This step contains my email."
+
+      - name: Commit changes
+        run: |
+          echo "Some changes made by the action." > file.txt
+          git add file.txt
+          git config --local user.email "22f3001666@ds.study.iitm.ac.in"
+          git config --local user.name "GitHub Actions"
+          git commit -m "Add file created by custom action"
+          git push
