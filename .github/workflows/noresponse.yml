@@ -16,12 +16,3 @@ jobs:
 
       - name: 22f3001666@ds.study.iitm.ac.in
         run: echo "Hello, world! This step contains my email."
-
-      - name: Commit changes
-        run: |
-          echo "Some changes made by the action." > file.txt
-          git add file.txt
-          git config --local user.email "22f3001666@ds.study.iitm.ac.in"
-          git config --local user.name "GitHub Actions"
-          git commit -m "Add file created by custom action"
-          git push
