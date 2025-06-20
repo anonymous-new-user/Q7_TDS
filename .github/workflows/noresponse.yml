@@ -1,18 +1,27 @@
-name: Custom Action with Email
+name: Daily Commit
 
 on:
-  workflow_dispatch:  # Allows manual triggering
-  push:
-    branches:
-      - main  # Trigger the workflow when pushing to the main branch
+  schedule:
+    - cron: '15 4 * * *'
+  workflow_dispatch:
 
 jobs:
-  test:
+  commit:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # ✅ allows push access
 
-      - name: 22f3001666@ds.study.iitm.ac.in
-        run: echo "Hello, world! This step contains my email."
+      - name: Commit step - 22f3001666@ds.study.iitm.ac.in
+        run: |
+          echo "TDSFU Daily run: $(date -u) TDSFU" >> daily-log.txt
+
+      - name: Git Commit and Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add daily-log.txt
+          git commit -m "Auto commit at $(date -u)" || echo "No changes to commit"
+          git push
